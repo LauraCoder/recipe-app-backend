@@ -22,6 +22,20 @@ const typeDefs = gql`
   type Query {
     allCategories: [Category!]!
     allRecipes: [Recipe!]!
+    findRecipe(title: String!): Recipe
+  }
+
+  type Mutation {
+    addRecipe(
+      title: String!
+      category: String!
+      servings: Int!
+      cookingTime: Int!
+      rating: Float
+      ingredients: [String]
+      instructions: [String]
+      image: String
+    ): Recipe
   }
 `
 module.exports = typeDefs
