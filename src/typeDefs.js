@@ -11,8 +11,8 @@ const typeDefs = gql`
     id: ID!
     title: String!
     category: String!
-    servings: String
-    cookingTime: String
+    servings: Int
+    cookingTime: Int
     rating: Float
     ingredients: [String]
     instructions: [String]
@@ -30,8 +30,8 @@ const typeDefs = gql`
     addRecipe(
       title: String!
       category: String!
-      servings: String!
-      cookingTime: String!
+      servings: Int!
+      cookingTime: Int!
       rating: Float
       ingredients: [String!]!
       instructions: [String!]!
