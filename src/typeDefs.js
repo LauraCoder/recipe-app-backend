@@ -33,8 +33,8 @@ const typeDefs = gql`
       servings: String!
       cookingTime: String!
       rating: Float
-      ingredients: [String]
-      instructions: [String]
+      ingredients: [String!]!
+      instructions: [String!]!
       image: String
     ): Recipe
   }
