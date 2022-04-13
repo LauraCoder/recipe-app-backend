@@ -37,6 +37,14 @@ const typeDefs = gql`
       instructions: [String!]!
       image: String
     ): Recipe
+    editRecipe(
+      title: String!
+      category: String!
+      servings: Int!
+      cookingTime: Int!
+      rating: Float
+      image: String
+    ): Recipe
   }
 `
 module.exports = typeDefs

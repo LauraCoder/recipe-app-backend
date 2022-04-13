@@ -28,7 +28,30 @@ const resolvers = {
       const newRecipe = { ...args, id: uuid(), dateAdded: Date() }
       const addNewRecipe = recipeFunctions.addNewRecipe(newRecipe)
       return newRecipe
-    }
+    },
+    editRecipe: async (root, args) => {
+      const querySnapshot = await getDocs(collection(db, "recipes"))
+      const recipeList = []
+      querySnapshot.forEach((doc) => {
+        recipeList.push(doc.data())
+      })
+      const recipe = recipeList.find(recipe => recipe.title === args.title)
+      if (!recipe) {
+        return null
+      }
+
+      const updatedRecipe = { 
+        ...recipe,
+        category: args.category,
+        servings: args.servings,
+        cookingTime: args.cookingTime,
+        rating: args.rating,
+        image: args.image
+      }
+
+      const addNewRecipe = recipeFunctions.editRecipe(updatedRecipe)
+      return updatedRecipe
+    } 
   }
 }
 
