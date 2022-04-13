@@ -1,4 +1,4 @@
-const { getFirestore, collection, getDocs, addDoc, setDoc, doc, updateDoc, query } = require ('firebase/firestore')
+const { getFirestore, collection, getDocs, addDoc, setDoc, doc, deleteDoc } = require ('firebase/firestore')
 const { argsToArgsConfig } = require('graphql/type/definition')
 const db = getFirestore()
 
@@ -32,7 +32,6 @@ const editRecipe = async (updatedRecipe) => {
   let recipeCollectionID
   querySnapshot.forEach((doc) => {
     if (updatedRecipe.title === doc.data().title) {
-      console.log('found the', updatedRecipe.title)
       recipeCollectionID = doc.id
     }
   })
@@ -41,9 +40,21 @@ const editRecipe = async (updatedRecipe) => {
   })
 }
 
+const deleteRecipe = async (recipeToDelete) => {
+  const querySnapshot = await getDocs(collection(db, "recipes"))
+  let recipeCollectionID
+  querySnapshot.forEach((doc) => {
+    if (recipeToDelete.id === doc.data().id) {
+      recipeCollectionID = doc.id
+    }
+  })
+  await deleteDoc(doc(db, "recipes", recipeCollectionID))
+}
+
 module.exports = {
   getRecipes,
   findRecipe,
   addNewRecipe,
-  editRecipe
+  editRecipe,
+  deleteRecipe
 }

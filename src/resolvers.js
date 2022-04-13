@@ -51,7 +51,17 @@ const resolvers = {
 
       const addNewRecipe = recipeFunctions.editRecipe(updatedRecipe)
       return updatedRecipe
-    } 
+    },
+    deleteRecipe: async (root, args) => {
+      const querySnapshot = await getDocs(collection(db, "recipes"))
+      const recipeList = []
+      querySnapshot.forEach((doc) => {
+        recipeList.push(doc.data())
+      })
+      const recipeToDelete = recipeList.find(recipe => recipe.id === args.id)
+      const detelefromFirestore = recipeFunctions.deleteRecipe(recipeToDelete)
+      return recipeToDelete
+    }
   }
 }
 

@@ -45,6 +45,7 @@ const typeDefs = gql`
       rating: Float
       image: String
     ): Recipe
+    deleteRecipe(id:ID): Recipe
   }
 `
 module.exports = typeDefs
