@@ -4,12 +4,14 @@ const { argsToArgsConfig } = require('graphql/type/definition')
 const db = getFirestore()
 const categoryFunctions = require('../firebase_functions/categoryFunctions')
 const recipeFunctions = require('../firebase_functions/recipeFunctions')
+const shoppingbagFunctions = require('../firebase_functions/shoppingbagFunctions')
 const { v1: uuid } = require('uuid')
 
 const resolvers = {
   Query: {
     allCategories: () => categoryFunctions.getCategories(),
     allRecipes: () => recipeFunctions.getRecipes(),
+    allIngredients: () => shoppingbagFunctions.getIngredients(),
     findRecipe: (root, args) =>
       recipeFunctions.findRecipe(args)
   },
@@ -61,7 +63,17 @@ const resolvers = {
       const recipeToDelete = recipeList.find(recipe => recipe.id === args.id)
       const detelefromFirestore = recipeFunctions.deleteRecipe(recipeToDelete)
       return recipeToDelete
-    }
+    },
+    addIngredient: async (root, args) => {
+      const querySnapshot = await getDocs(collection(db, "shoppingbag"))
+      const ingredientList = []
+      querySnapshot.forEach((doc) => {
+        ingredientList.push(doc.data())
+      })
+      const newIngredient = { ...args }
+      const addNewIngredient = shoppingbagFunctions.addNewIngredient(newIngredient)
+      return newIngredient
+    },
   }
 }
 

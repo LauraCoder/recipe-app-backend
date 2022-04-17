@@ -20,9 +20,14 @@ const typeDefs = gql`
     image: String
   }
 
+  type Shoppingbag {
+    ingredient: String!
+  }
+
   type Query {
     allCategories: [Category!]!
     allRecipes: [Recipe!]!
+    allIngredients: [Shoppingbag!]!
     findRecipe(title: String!): Recipe
   }
 
@@ -46,6 +51,9 @@ const typeDefs = gql`
       image: String
     ): Recipe
     deleteRecipe(id:ID): Recipe
+    addIngredient(
+      ingredient: String!
+    ): Shoppingbag
   }
 `
 module.exports = typeDefs
