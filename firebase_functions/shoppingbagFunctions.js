@@ -18,7 +18,19 @@ const addNewIngredient = async (newIngredient) => {
   })
 }
 
+const deleteIngredient = async (ingredientToDelete) => {
+  const querySnapshot = await getDocs(collection(db, "shoppingbag"))
+  let ingredientCollectionID
+  querySnapshot.forEach((doc) => {
+    if (ingredientToDelete.id === doc.data().id) {
+      ingredientCollectionID = doc.id
+    }
+  })
+  await deleteDoc(doc(db, "shoppingbag", ingredientCollectionID))
+}
+
 module.exports = {
   getIngredients,
   addNewIngredient,
+  deleteIngredient
 }

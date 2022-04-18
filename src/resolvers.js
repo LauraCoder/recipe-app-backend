@@ -70,9 +70,19 @@ const resolvers = {
       querySnapshot.forEach((doc) => {
         ingredientList.push(doc.data())
       })
-      const newIngredient = { ...args }
+      const newIngredient = { ...args, id: uuid(), }
       const addNewIngredient = shoppingbagFunctions.addNewIngredient(newIngredient)
       return newIngredient
+    },
+    deleteIngredient: async (root, args) => {
+      const querySnapshot = await getDocs(collection(db, "shoppingbag"))
+      const ingredientList = []
+      querySnapshot.forEach((doc) => {
+        ingredientList.push(doc.data())
+      })
+      const ingredientToDelete = ingredientList.find(ingredient => ingredient.id === args.id)
+      const detelefromFirestore = shoppingbagFunctions.deleteIngredient(ingredientToDelete)
+      return ingredientToDelete
     },
   }
 }

@@ -21,6 +21,7 @@ const typeDefs = gql`
   }
 
   type Shoppingbag {
+    id: ID!
     ingredient: String!
   }
 
@@ -54,6 +55,7 @@ const typeDefs = gql`
     addIngredient(
       ingredient: String!
     ): Shoppingbag
+    deleteIngredient(id:ID): Shoppingbag
   }
 `
 module.exports = typeDefs
