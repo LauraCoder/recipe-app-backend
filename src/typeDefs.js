@@ -24,12 +24,22 @@ const typeDefs = gql`
     id: ID!
     ingredient: String!
   }
+  
+  type User {
+    username: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
 
   type Query {
     allCategories: [Category!]!
     allRecipes: [Recipe!]!
     allIngredients: [Shoppingbag!]!
     findRecipe(title: String!): Recipe
+    me: User
   }
 
   type Mutation {
@@ -56,6 +66,13 @@ const typeDefs = gql`
       ingredient: String!
     ): Shoppingbag
     deleteIngredient(id:ID): Shoppingbag
+    createUser(
+      username: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `
 module.exports = typeDefs
