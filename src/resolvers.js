@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { UserInputError, } = require('apollo-server')
 const { getFirestore, collection, getDocs, } = require ('firebase/firestore')
 const { argsToArgsConfig } = require('graphql/type/definition')
@@ -8,9 +7,10 @@ const categoryFunctions = require('../firebase_functions/categoryFunctions')
 const recipeFunctions = require('../firebase_functions/recipeFunctions')
 const shoppingbagFunctions = require('../firebase_functions/shoppingbagFunctions')
 const userFunctions = require('../firebase_functions/userFunctions')
+const config = require('../utils/config')
 const User = require('./../models/user')
 const { v1: uuid } = require('uuid')
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = config.SECRET
 
 const resolvers = {
   Query: {
@@ -107,20 +107,11 @@ const resolvers = {
       const newUser = { username: args.username, id: uuid() }
       const addNewUser = userFunctions.addNewUser(newUser)
       return newUser
-      //const user = new User({ username: args.username })
-  
-      /*return user.save()
-        .catch(error => {
-          throw new UserInputError(error.message, {
-            invalidArgs: args,
-          })
-        })*/
     },
     login: async (root, args) => {
-      //const user = await User.findOne({ username: args.username })
-      const user = await userFunctions.findUser(args.username)
+      const user = userFunctions.findUser(args.username)
   
-      if ( !user || args.password !== 'secret' ) {
+      if ( !user || args.password !== JWT_SECRET ) {
         throw new UserInputError("wrong credentials")
       }
   

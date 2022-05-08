@@ -11,7 +11,9 @@ const firebaseApp = initializeApp({
   appId: process.env.appId
 })
 
+const SECRET = process.env.SECRET
 
 module.exports = {
-  firebaseApp
+  firebaseApp,
+  SECRET
 }
