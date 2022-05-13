@@ -2,13 +2,14 @@ const { UserInputError, } = require('apollo-server')
 const { getFirestore, collection, getDocs, } = require ('firebase/firestore')
 const { argsToArgsConfig } = require('graphql/type/definition')
 const db = getFirestore()
+const {getAuth, signInWithCustomToken, } = require('firebase/auth')
 const jwt = require('jsonwebtoken')
 const categoryFunctions = require('../firebase_functions/categoryFunctions')
 const recipeFunctions = require('../firebase_functions/recipeFunctions')
 const shoppingbagFunctions = require('../firebase_functions/shoppingbagFunctions')
 const userFunctions = require('../firebase_functions/userFunctions')
 const config = require('../utils/config')
-const User = require('./../models/user')
+//const User = require('./../models/user')
 const { v1: uuid } = require('uuid')
 const JWT_SECRET = config.SECRET
 
@@ -19,9 +20,14 @@ const resolvers = {
     allIngredients: () => shoppingbagFunctions.getIngredients(),
     findRecipe: (root, args) =>
       recipeFunctions.findRecipe(args),
-     me: (root, args, context) => {
+    me: (root, args, context) => {
+      console.log('cont', context)
       return context.currentUser
     },
+    /*me: () => {
+      const auth = getAuth()
+      return auth.currentUser
+    }*/
   },
   Mutation: {
     addRecipe: async (root, args) => {
@@ -109,18 +115,37 @@ const resolvers = {
       return newUser
     },
     login: async (root, args) => {
-      const user = userFunctions.findUser(args.username)
-  
-      if ( !user || args.password !== JWT_SECRET ) {
+      const auth = getAuth()
+      const querySnapshot = await getDocs(collection(db, "users"))
+      const userList = []
+      querySnapshot.forEach((doc) => {
+        userList.push(doc.data())
+      })
+      const foundUser = userList.find(user => user.username === args.username)
+
+      if ( !foundUser || args.password !== JWT_SECRET ) {
         throw new UserInputError("wrong credentials")
       }
   
       const userForToken = {
-        username: user.username,
-        id: user._id,
+        username: foundUser.username,
+        id: foundUser.id,
       }
-  
-      return { value: jwt.sign(userForToken, JWT_SECRET) }
+
+      const token = jwt.sign(userForToken, JWT_SECRET)
+
+      signInWithCustomToken(auth, token)
+        .then((userCredential) => {
+       // Signed in 
+          const user = userCredential.user
+          console.log('uuuser', user)
+        })
+        .catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+        })
+
+        return { value: token }
     },
   }
 }

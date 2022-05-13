@@ -1,4 +1,6 @@
 const {initializeApp} = require('firebase/app')
+const {getAuth} = require('firebase/auth')
+//import { getAuth } from "firebase/auth"
 require('dotenv').config()
 
 const firebaseApp = initializeApp({
@@ -8,12 +10,16 @@ const firebaseApp = initializeApp({
   projectId: process.env.projectId,
   storageBucket: process.env.storageBucket,
   messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId
+  appId: process.env.appId,
 })
+
+const auth = getAuth(firebaseApp)
+console.log('auth', auth)
 
 const SECRET = process.env.SECRET
 
 module.exports = {
   firebaseApp,
+  auth,
   SECRET
 }

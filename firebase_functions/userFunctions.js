@@ -14,7 +14,10 @@ const findUser = async (args) => {
   querySnapshot.forEach((doc) => {
     userList.push(doc.data())
   })
+  console.log('list', userList)
+  console.log('args', args)
   const foundUser = userList.find(user => user.username === args.username)
+  console.log('found', foundUser)
   return foundUser
 }
 
