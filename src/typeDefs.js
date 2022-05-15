@@ -54,12 +54,15 @@ const typeDefs = gql`
       image: String
     ): Recipe
     editRecipe(
-      title: String!
-      category: String!
-      servings: Int!
-      cookingTime: Int!
+      id: ID!
+      title: String
+      category: String
+      servings: Int
+      cookingTime: Int
       rating: Float
       image: String
+      ingredients: [String]
+      instructions: [String]
     ): Recipe
     deleteRecipe(id:ID): Recipe
     addIngredient(

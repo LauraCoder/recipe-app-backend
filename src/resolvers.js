@@ -51,21 +51,18 @@ const resolvers = {
       querySnapshot.forEach((doc) => {
         recipeList.push(doc.data())
       })
-      const recipe = recipeList.find(recipe => recipe.title === args.title)
+      const recipe = recipeList.find(recipe => recipe.id === args.id)
       if (!recipe) {
         return null
       }
+      console.log('args', args)
 
       const updatedRecipe = { 
         ...recipe,
-        category: args.category,
-        servings: args.servings,
-        cookingTime: args.cookingTime,
-        rating: args.rating,
-        image: args.image
+        ...args,
       }
 
-      const addNewRecipe = recipeFunctions.editRecipe(updatedRecipe)
+      const editRecipe = recipeFunctions.editRecipe(updatedRecipe)
       return updatedRecipe
     },
     deleteRecipe: async (root, args) => {

@@ -10,12 +10,11 @@ const userFunctions = require('../firebase_functions/userFunctions')
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({req}) => {
+  /*context: async ({req}) => {
       //const auth = req ? req.headers.authorization : null
       const auth = getAuth()
       if (auth) {
         const currentUser = auth.currentUser
-        console.log('current', currentUser)
         return currentUser
       }
     /*if (auth && auth.toLowerCase().startsWith('bearer ')) {
@@ -23,8 +22,8 @@ const server = new ApolloServer({
       console.log('loggaantunu?')
       return auth.currentUser
     }*/
-  }
-  /*
+  
+  /*}
   context: async ({req}) => {
     const auth = req ? req.headers.authorization : null
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
