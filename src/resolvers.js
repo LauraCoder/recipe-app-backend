@@ -20,6 +20,8 @@ const resolvers = {
     allIngredients: () => shoppingbagFunctions.getIngredients(),
     findRecipe: (root, args) =>
       recipeFunctions.findRecipe(args),
+    filterRecipes: (root, args) => 
+      recipeFunctions.filterRecipes(args),
     me: (root, args, context) => {
       console.log('cont', context)
       return context.currentUser

@@ -39,6 +39,7 @@ const typeDefs = gql`
     allRecipes: [Recipe!]!
     allIngredients: [Shoppingbag!]!
     findRecipe(title: String!): Recipe
+    filterRecipes(rating: Float, cookingTime: Int, servings: Int): [Recipe!]!
     me: User
   }
 
@@ -46,11 +47,11 @@ const typeDefs = gql`
     addRecipe(
       title: String!
       category: String!
-      servings: Int!
-      cookingTime: Int!
+      servings: Int
+      cookingTime: Int
       rating: Float
-      ingredients: [String!]!
-      instructions: [String!]!
+      ingredients: [String]
+      instructions: [String]
       image: String
     ): Recipe
     editRecipe(

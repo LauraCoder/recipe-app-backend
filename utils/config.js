@@ -14,7 +14,6 @@ const firebaseApp = initializeApp({
 })
 
 const auth = getAuth(firebaseApp)
-console.log('auth', auth)
 
 const SECRET = process.env.SECRET
 

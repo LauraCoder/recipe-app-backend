@@ -21,6 +21,23 @@ const findRecipe = async (args) => {
   return foundRecipe
 }
 
+const filterRecipes = async (args) => {
+  const querySnapshot = await getDocs(collection(db, "recipes"))
+  const recipeList = []
+  querySnapshot.forEach((doc) => {
+    recipeList.push(doc.data())
+  })
+  let filteredRecipeList
+  if (args.rating) {
+    filteredRecipeList = recipeList.filter(recipe => recipe.rating >= args.rating)
+  } else if (args.cookingTime) {
+    filteredRecipeList = recipeList.filter(recipe => recipe.cookingTime <= args.cookingTime)
+  } else if (args.servings) {
+    filteredRecipeList = recipeList.filter(recipe => recipe.servings >= args.servings)
+  }
+  return filteredRecipeList
+}
+
 const addNewRecipe = async (newRecipe) => {
   await addDoc(collection(db, "recipes"), {
     ...newRecipe
@@ -55,6 +72,7 @@ const deleteRecipe = async (recipeToDelete) => {
 module.exports = {
   getRecipes,
   findRecipe,
+  filterRecipes,
   addNewRecipe,
   editRecipe,
   deleteRecipe
