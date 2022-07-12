@@ -17,7 +17,7 @@ const findRecipe = async (args) => {
   querySnapshot.forEach((doc) => {
     recipeList.push(doc.data())
   })
-  const foundRecipe = recipeList.find(recipe => recipe.title === args.title)
+  const foundRecipe = recipeList.find(recipe => recipe.title.toLowerCase() === args.title.toLowerCase())
   return foundRecipe
 }
 
@@ -47,7 +47,6 @@ const addNewRecipe = async (newRecipe) => {
 const editRecipe = async (updatedRecipe) => {
   const querySnapshot = await getDocs(collection(db, "recipes"))
   let recipeCollectionID
-  console.log('rrr', updatedRecipe)
   querySnapshot.forEach((doc) => {
     if (updatedRecipe.id === doc.data().id) {
       recipeCollectionID = doc.id
