@@ -1,6 +1,6 @@
 <h1>Recipe Book</h1>
 
-<p>Recipe Book is a React Native mobile app for saving recipes. The project has been done as part of the <a href="https://fullstackopen.com/en" target="_blank">Full Stack Open course by Helsinki University.</a> Both, frontend (React Native) and <a href="https://github.com/LauraCoder/recipe-app-backend" target="_blank">backend (GraphQL)</a> were created for this project. </p>
+<p>Recipe Book is a React Native mobile app for saving recipes. The project has been done as part of the <a href="https://fullstackopen.com/en" target="_blank">Full Stack Open course by Helsinki University.</a> Both, <a href="https://github.com/LauraCoder/recipe-app" target="_blank">frontend (React Native)</a> and backend (GraphQL) were created for this project. </p>
 <p>The current features are:</p>
 <ul>
 <li>
